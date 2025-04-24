@@ -1,92 +1,39 @@
-import axios from 'axios'
-import { cloneDeep } from 'lodash'
-const { parse, compile } = require("path-to-regexp")
-import { message } from 'antd'
-import { CANCEL_REQUEST_MESSAGE } from 'utils/constant'
+// src/utils/request.js
+import axios from 'axios';
+import { message } from 'antd';
 
-const { CancelToken } = axios
-window.cancelRequest = new Map()
+const request = axios.create({
+  baseURL: process.env.API_BASE_URL || 'http://localhost:7000', // set your API base URL here
+  timeout: 5000, // optional timeout
+});
 
-export default function request(options) {
-  let { data, url } = options
-  const cloneData = cloneDeep(data)
-
-  try {
-    let domain = ''
-    const urlMatch = url.match(/[a-zA-z]+:\/\/[^/]*/)
-    if (urlMatch) {
-      ;[domain] = urlMatch
-      url = url.slice(domain.length)
+// Request interceptor to add JWT token to headers
+request.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
-    const match = parse(url)
-    url = compile(url)(data)
-
-    for (const item of match) {
-      if (item instanceof Object && item.name in cloneData) {
-        delete cloneData[item.name]
-      }
+// Response interceptor for global error handling
+request.interceptors.response.use(
+  (response) => response.data, // return the data directly
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      message.error('Session expired. Please log in again.');
+      // Optionally redirect to the login page
+      window.location.href = '/login';
+    } else if (error.response && error.response.data && error.response.data.message) {
+      message.error(error.response.data.message);
+    } else {
+      message.error('Something went wrong. Please try again.');
     }
-    url = domain + url
-  } catch (e) {
-    message.error(e.message)
+    return Promise.reject(error);
   }
+);
 
-  options.url = url
-  options.cancelToken = new CancelToken(cancel => {
-    window.cancelRequest.set(Symbol(Date.now()), {
-      pathname: window.location.pathname,
-      cancel,
-    })
-  })
-
-  return axios(options)
-    .then(response => {
-      const { statusText, status, data } = response
-
-      let result = {}
-      if (typeof data === 'object') {
-        result = data
-        if (Array.isArray(data)) {
-          result.list = data
-        }
-      } else {
-        result.data = data
-      }
-
-      return Promise.resolve({
-        success: true,
-        message: statusText,
-        statusCode: status,
-        ...result,
-      })
-    })
-    .catch(error => {
-      const { response, message } = error
-
-      if (String(message) === CANCEL_REQUEST_MESSAGE) {
-        return {
-          success: false,
-        }
-      }
-
-      let msg
-      let statusCode
-
-      if (response && response instanceof Object) {
-        const { data, statusText } = response
-        statusCode = response.status
-        msg = data.message || statusText
-      } else {
-        statusCode = 600
-        msg = error.message || 'Network Error'
-      }
-
-      /* eslint-disable */
-      return Promise.reject({
-        success: false,
-        statusCode,
-        message: msg,
-      })
-    })
-}
+export default request;

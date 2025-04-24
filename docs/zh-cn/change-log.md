@@ -32,14 +32,14 @@
   
 - 支持多布局，可根据规则规定哪些路由使用哪种布局。
 
-- 支持 Antd Admin 在 Travis 上自动编译和部署。
+- 支持 Outlet Management System 在 Travis 上自动编译和部署。
 
 - 使用 `Docsify` 生成文档网站。
 
 
 #### 样式
 
-- 新增 Antd Admin 独立 Logo。
+- 新增 Outlet Management System 独立 Logo。
 
 - 重写整体布局组件，优化菜单、面包屑导航自动高亮，菜单自动展开等逻辑。
 

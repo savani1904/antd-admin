@@ -1,17 +1,16 @@
 import { cloneDeep } from 'lodash'
-const { pathToRegexp } = require("path-to-regexp")
-import store from 'store'
 import { i18n } from './config'
-
+import store from 'store'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import 'dayjs/locale/zh-cn'
+import classnames from 'classnames'
+const { pathToRegexp } = require("path-to-regexp")
 
 dayjs.extend(relativeTime)
-
-export classnames from 'classnames'
-export config from './config'
-export request from './request'
+export { classnames }
+export { default as config } from './config'
+export { default as request } from './request'
 export { Color } from './theme'
 
 export const languages = i18n ? i18n.languages.map(item => item.key) : []

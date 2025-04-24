@@ -1,92 +1,92 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'umi'
-import { Tabs } from 'antd'
-import { history } from 'umi'
-import { stringify } from 'qs'
-import { t } from "@lingui/macro"
-import { Page } from 'components'
-import List from './components/List'
+import React, { useState } from 'react';
+import { Form, Input, Button, Checkbox, Typography, message } from 'antd';
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
+// If you're using Umi, you could use Umi's routing instead. Here, we’ll use react-router-dom for demonstration.
+import { useHistory } from 'react-router-dom';
 
-const { TabPane } = Tabs
+const { Title } = Typography;
 
-const EnumPostStatus = {
-  UNPUBLISH: 1,
-  PUBLISHED: 2,
-}
+const Login = () => {
+  const history = useHistory();
+  const [loading, setLoading] = useState(false);
 
-@connect(({ post, loading }) => ({ post, loading }))
-class Post extends PureComponent {
-  handleTabClick = key => {
-    const { pathname } = this.props.location
+  // Handle login form submission
+  const onFinish = async (values) => {
+    setLoading(true);
+    const { username, password } = values;
 
-    history.push({
-      pathname,
-      search: stringify({
-        status: key,
-      }),
-    })
-  }
-
-  get listProps() {
-    const { post, loading, location } = this.props
-    const { list, pagination } = post
-    const { query, pathname } = location
-
-    return {
-      pagination,
-      dataSource: list,
-      loading: loading.effects['post/query'],
-      onChange(page) {
-        history.push({
-          pathname,
-          search: stringify({
-            ...query,
-            page: page.current,
-            pageSize: page.pageSize,
-          }),
-        })
-      },
+    // Simulate API login call
+    // (Replace this section with your real authentication API)
+    try {
+      // For demonstration, only 'admin'/'admin' succeed.
+      if (username === 'admin' && password === 'admin') {
+        message.success('Login successful!');
+        // Simulate a short delay before redirection
+        setTimeout(() => {
+          history.push('/dashboard');
+        }, 1000);
+      } else {
+        message.error('Incorrect username or password. Please try again!');
+      }
+    } catch (error) {
+      message.error('Login failed. Please try again.');
+    } finally {
+      setLoading(false);
     }
-  }
+  };
 
-  render() {
-    const { location } = this.props
-    const { query } = location
-
-    return (
-      <Page inner>
-        <Tabs
-          activeKey={
-            query.status === String(EnumPostStatus.UNPUBLISH)
-              ? String(EnumPostStatus.UNPUBLISH)
-              : String(EnumPostStatus.PUBLISHED)
-          }
-          onTabClick={this.handleTabClick}
-        >
-          <TabPane
-            tab={t`Publised`}
-            key={String(EnumPostStatus.PUBLISHED)}
+  return (
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        backgroundColor: '#f0f2f5',
+      }}
+    >
+      <div
+        style={{
+          width: 360,
+          padding: '40px 30px',
+          backgroundColor: '#fff',
+          borderRadius: 8,
+          boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+        }}
+      >
+        <Title level={2} style={{ textAlign: 'center', marginBottom: '32px' }}>
+          Login
+        </Title>
+        <Form name="login_form" initialValues={{ remember: true }} onFinish={onFinish}>
+          <Form.Item
+            name="username"
+            rules={[{ required: true, message: 'Please input your username!' }]}
           >
-            <List {...this.listProps} />
-          </TabPane>
-          <TabPane
-            tab={t`Unpublished`}
-            key={String(EnumPostStatus.UNPUBLISH)}
+            <Input prefix={<UserOutlined />} placeholder="Username or Email" />
+          </Form.Item>
+          <Form.Item
+            name="password"
+            rules={[{ required: true, message: 'Please input your password!' }]}
           >
-            <List {...this.listProps} />
-          </TabPane>
-        </Tabs>
-      </Page>
-    )
-  }
-}
+            <Input.Password prefix={<LockOutlined />} placeholder="Password" />
+          </Form.Item>
+          <Form.Item>
+            <Form.Item name="remember" valuePropName="checked" noStyle>
+              <Checkbox>Remember me</Checkbox>
+            </Form.Item>
+            <a href="#!" style={{ float: 'right' }}>
+              Forgot Password?
+            </a>
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" block loading={loading}>
+              Log in
+            </Button>
+          </Form.Item>
+        </Form>
+      </div>
+    </div>
+  );
+};
 
-Post.propTypes = {
-  post: PropTypes.object,
-  loading: PropTypes.object,
-  location: PropTypes.object,
-  dispatch: PropTypes.func,
-}
-
-export default Post
+export default Login;

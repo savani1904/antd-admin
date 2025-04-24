@@ -3,73 +3,64 @@ import { Mock, Constant } from './_utils'
 const { ApiPrefix, Color } = Constant
 
 const Dashboard = Mock.mock({
-  'sales|8': [
+  // Revenue data for different outlet types over several years
+  'revenue|8': [
     {
-      'name|+1': 2008,
-      'Clothes|200-500': 1,
-      'Food|180-400': 1,
-      'Electronics|300-550': 1,
+      'year|+1': 2017, // Starting year will be 2017 and increment for each entry
+      'MallOutlets|50000-150000': 1,
+      'Standalone|30000-100000': 1,
+      'Online|20000-90000': 1,
+      'Franchise|25000-120000': 1,
     },
   ],
-  cpu: {
-    'usage|50-600': 1,
-    space: 825,
-    'cpu|40-90': 1,
+  // Foot traffic data for all outlets
+  footTraffic: {
+    'visits|1000-5000': 1,
+    'averageDuration|10-60': 1, // in minutes
     'data|20': [
       {
-        'cpu|20-80': 1,
+        'visits|10-300': 1,
       },
     ],
   },
-  browser: [
+  // Status of outlets in terms of their operation state
+  outletStatus: [
     {
-      name: 'Google Chrome',
-      percent: 43.3,
+      name: 'Operational',
+      percent: 70.5,
       status: 1,
     },
     {
-      name: 'Mozilla Firefox',
-      percent: 33.4,
+      name: 'Under Maintenance',
+      percent: 15.2,
       status: 2,
     },
     {
-      name: 'Apple Safari',
-      percent: 34.6,
+      name: 'Closed',
+      percent: 14.3,
       status: 3,
     },
-    {
-      name: 'Internet Explorer',
-      percent: 12.3,
-      status: 4,
-    },
-    {
-      name: 'Opera Mini',
-      percent: 3.3,
-      status: 1,
-    },
-    {
-      name: 'Chromium',
-      percent: 2.53,
-      status: 1,
-    },
   ],
-  user: {
-    name: 'github',
-    sales: 3241,
-    sold: 3556,
+  // Manager details for the system
+  manager: {
+    name: 'admin',
+    outletsManaged: 12,
+    totalRevenue: 500000,
   },
-  'completed|12': [
+  // Monthly performance metrics showing sales and foot traffic per month
+  'monthlyPerformance|12': [
     {
-      'name|+1': 2008,
-      'Task complete|200-1000': 1,
-      'Cards Complete|200-1000': 1,
+      'month|+1': 1,
+      'Sales|20000-100000': 1,
+      'FootTraffic|1000-5000': 1,
     },
   ],
-  'comments|5': [
+  // Customer feedback data with ratings and comments
+  'feedback|5': [
     {
       name: '@last',
-      'status|1-3': 1,
-      content: '@sentence',
+      'rating|1-5': 1,
+      comment: '@sentence',
       avatar() {
         return Mock.Random.image(
           '48x48',
@@ -77,60 +68,58 @@ const Dashboard = Mock.mock({
           '#757575',
           'png',
           this.name.substr(0, 1)
-        )
+        );
       },
       date() {
-        return `2016-${Mock.Random.date('MM-dd')} ${Mock.Random.time(
-          'HH:mm:ss'
-        )}`
+        return `2025-${Mock.Random.date('MM-dd')} ${Mock.Random.time('HH:mm:ss')}`;
       },
     },
   ],
-  'recentSales|36': [
+  // Recent transactions from various outlets
+  'recentTransactions|36': [
     {
       'id|+1': 1,
-      name: '@last',
+      outlet: '@last',
       'status|1-4': 1,
       date() {
-        return `${Mock.Random.integer(2015, 2016)}-${Mock.Random.date(
-          'MM-dd'
-        )} ${Mock.Random.time('HH:mm:ss')}`
+        return `${Mock.Random.integer(2023, 2025)}-${Mock.Random.date('MM-dd')} ${Mock.Random.time('HH:mm:ss')}`;
       },
-      'price|10-200.1-2': 1,
+      'amount|100-1000.2-2': 1,
     },
   ],
-  quote: {
-    name: 'Joho Doe',
-    title: 'Graphic Designer',
+  // An announcement or quote for the outlet management system
+  announcement: {
+    title: 'Welcome to Outlet Management System!',
     content:
-      "I'm selfish, impatient and a little insecure. I make mistakes, I am out of control and at times hard to handle. But if you can't handle me at my worst, then you sure as hell don't deserve me at my best.",
+      "This system helps monitor all outlets, track performance, and manage operations efficiently.",
     avatar:
-      '//cdn.antd-admin.zuiidea.com/bc442cf0cc6f7940dcc567e465048d1a8d634493198c4-sPx5BR_fw236',
+      '//cdn.outletmanagementsystem.com/announcement_logo.png',
   },
+  // Key numbers and metrics on the dashboard
   numbers: [
     {
-      icon: 'pay-circle-o',
+      icon: 'shop',
       color: Color.green,
-      title: 'Online Review',
-      number: 2781,
+      title: 'Total Outlets',
+      number: 150,
     },
     {
-      icon: 'team',
+      icon: 'area-chart',
       color: Color.blue,
-      title: 'New Customers',
-      number: 3241,
+      title: 'Total Revenue',
+      number: 1250000,
     },
     {
-      icon: 'message',
+      icon: 'user',
       color: Color.purple,
-      title: 'Active Projects',
-      number: 253,
+      title: 'Customers Served',
+      number: 9800,
     },
     {
-      icon: 'shopping-cart',
+      icon: 'calendar',
       color: Color.red,
-      title: 'Referrals',
-      number: 4324,
+      title: 'Scheduled Maintenance',
+      number: 24,
     },
   ],
 })

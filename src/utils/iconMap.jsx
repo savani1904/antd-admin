@@ -14,7 +14,7 @@ import {
   AreaChartOutlined,
 } from '@ant-design/icons'
 
-export default {
+const iconMap = {
   'pay-circle-o': <PayCircleOutlined />,
   'shopping-cart': <ShoppingCartOutlined />,
   'camera-o': <CameraOutlined />,
@@ -28,4 +28,6 @@ export default {
   user: <UserOutlined />,
   api: <ApiOutlined />,
   edit: <EditOutlined />,
-}
+};
+
+export default iconMap;

@@ -5,7 +5,7 @@
   </a>
 </p>
 
-<h1 align="center">AntD Admin</h1>
+<h1 align="center">Outlet Management System</h1>
 
 <div align="center">
 
@@ -32,7 +32,7 @@ English | [简体中文](./README-zh_CN.md)
 
 - Internationalization, extracting translation fields from source code, loading language packs on demand
 - Dynamic permissions, different permissions for different menus
-- Elegant and beautiful, Ant Design system
+- Elegant and beautiful, Outlet Management System system
 - Mock data, local data debugging
 
 
@@ -82,6 +82,6 @@ Modern browsers.
 
 We very much welcome your contribution, you can build together with us in the following ways :smiley: 
 
-- Use Ant Design Pro in your daily work.
+- Use Outlet Management System Pro in your daily work.
 - Submit [GitHub issues](http://github.com/zuiidea/antd-admin/issues)s to report bugs or ask questions.
 - Propose [Pull Request](http://github.com/zuiidea/antd-admin/pulls) to improve our code.

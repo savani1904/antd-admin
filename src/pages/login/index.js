@@ -1,100 +1,101 @@
-import React, { PureComponent, Fragment } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'umi'
-import { Button, Row, Input, Form } from 'antd'
-import { GlobalFooter } from 'components'
-import { GithubOutlined } from '@ant-design/icons'
-import { t, Trans } from "@lingui/macro"
-import { setLocale } from 'utils'
-import config from 'utils/config'
+import React, { useState } from 'react';
+import { Button, Row, Input, Form, message } from 'antd';
+import { GlobalFooter } from 'components';
+import { GithubOutlined } from '@ant-design/icons';
+import { t, Trans } from '@lingui/macro';
+import { setLocale } from 'utils';
+import config from 'utils/config';
+import { login } from '@/utils/auth'; // Import the dummy authentication function
+import { history } from 'umi'; // Redirect functionality
+import styles from './index.less';
 
-import styles from './index.less'
+const Login = () => {
+  const [loading, setLoading] = useState(false);
 
-const FormItem = Form.Item
+  // Handle login submission using dummy authentication
+  const handleLogin = async (values) => {
+    setLoading(true);
+    try {
+      const result = login(values.username, values.password); // Authenticate user
 
-@connect(({ loading, dispatch }) => ({ loading, dispatch }))
-class Login extends PureComponent {
-
-  render() {
-    const { dispatch, loading } = this.props
-    
-    const handleOk = values => {
-      dispatch({ type: 'login/login', payload: values })
+      if (result.success) {
+        message.success('Login successful! Redirecting...');
+        history.push('/dashboard'); // Redirect to dashboard after login
+      } else {
+        message.error(result.message); // Show error message if authentication fails
+      }
+    } catch (error) {
+      message.error('Login failed! Please check your credentials.');
+    } finally {
+      setLoading(false);
     }
-    let footerLinks = [
-      {
-        key: 'github',
-        title: <GithubOutlined />,
-        href: 'https://github.com/zuiidea/antd-admin',
-        blankTarget: true,
-      },
-    ]
+  };
 
-    if (config.i18n) {
-      footerLinks = footerLinks.concat(
-        config.i18n.languages.map(item => ({
-          key: item.key,
-          title: (
-            <span onClick={setLocale.bind(null, item.key)}>{item.title}</span>
-          ),
-        }))
-      )
-    }
+  // Footer links remain unchanged
+  let footerLinks = [
+    {
+      key: 'github',
+      title: <GithubOutlined />,
+      href: 'https://github.com/zuiidea/antd-admin',
+      blankTarget: true,
+    },
+  ];
 
-    return (
-      <Fragment>
-        <div className={styles.form}>
-          <div className={styles.logo}>
-            <img alt="logo" src={config.logoPath} />
-            <span>{config.siteName}</span>
-          </div>
-          <Form
-            onFinish={handleOk}
-            >
-            <FormItem name="username" 
-              rules={[{ required: true }]} hasFeedback>
-                <Input
-                  placeholder={t`Username`}
-                />
-            </FormItem>
-            <Trans id="Password" render={({translation}) => (
-              <FormItem name="password" rules={[{ required: true }]} hasFeedback>
-              <Input type='password' placeholder={translation} required />
-              </FormItem>)} 
-            />
-            <Row>
-              <Button
-                type="primary"
-                htmlType="submit"
-                loading={loading.effects.login}
-              >
-                <Trans>Sign in</Trans>
-              </Button>
-              <p>
-                <span className="margin-right">
-                  <Trans>Username</Trans>
-                  ：guest
-                </span>
-                <span>
-                  <Trans>Password</Trans>
-                  ：guest
-                </span>
-              </p>
-            </Row>
-          </Form>
-        </div>
-        <div className={styles.footer}>
-          <GlobalFooter links={footerLinks} copyright={config.copyright} />
-        </div>
-      </Fragment>
-    )
+  if (config.i18n) {
+    footerLinks = footerLinks.concat(
+      config.i18n.languages.map((item) => ({
+        key: item.key,
+        title: (
+          <span onClick={() => setLocale(item.key)}>
+            {item.title}
+          </span>
+        ),
+      }))
+    );
   }
-}
 
-Login.propTypes = {
-  form: PropTypes.object,
-  dispatch: PropTypes.func,
-  loading: PropTypes.object,
-}
+  return (
+    <>
+      <div className={styles.form}>
+        <div className={styles.logo}>
+          <img alt="logo" src={config.logoPath} />
+          <span>{config.siteName}</span>
+        </div>
+        <Form onFinish={handleLogin}>
+          <Form.Item
+            name="username"
+            rules={[{ required: true, message: t`Please input your username!` }]}
+            hasFeedback
+          >
+            <Input placeholder={t`Username`} />
+          </Form.Item>
+          <Form.Item
+            name="password"
+            rules={[{ required: true, message: t`Please input your password!` }]}
+            hasFeedback
+          >
+            <Input type="password" placeholder="Password" required />
+          </Form.Item>
+          <Row>
+            <Button type="primary" htmlType="submit" loading={loading}>
+              <Trans>Sign in</Trans>
+            </Button>
+            <p>
+              <span className="margin-right">
+                <Trans>Username</Trans>: <b>admin</b> or <b>guest</b>
+              </span>
+              <span>
+                <Trans>Password</Trans>: <b>admin123</b> or <b>guest</b>
+              </span>
+            </p>
+          </Row>
+        </Form>
+      </div>
+      <div className={styles.footer}>
+        <GlobalFooter links={footerLinks} copyright={config.copyright} />
+      </div>
+    </>
+  );
+};
 
-export default Login
+export default Login;

@@ -1,4 +1,6 @@
-export default {
+// src/services/api.js
+
+const apiEndpoints = {
   queryRouteList: '/routes',
 
   queryUserInfo: '/user',
@@ -15,4 +17,6 @@ export default {
   queryPostList: '/posts',
 
   queryDashboard: '/dashboard',
-}
+};
+
+export default apiEndpoints;

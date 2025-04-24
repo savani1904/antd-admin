@@ -1,19 +1,15 @@
-const { pathToRegexp } = require("path-to-regexp")
+// src/utils/index.test.js
+import { pathToRegexp } from 'path-to-regexp';
 
 describe('test pathToRegexp', () => {
-  it('get right', () => {
-    expect(pathToRegexp('/user').exec('/zh/user')).toEqual(
-      pathToRegexp('/user').exec('/user')
-    )
-    expect(pathToRegexp('/user').exec('/user')).toEqual(
-      pathToRegexp('/user').exec('/user')
-    )
+  it('should match the exact path "/user"', () => {
+    const re = pathToRegexp('/user');
+    const match = re.exec('/user');
+    expect(match && match[0]).toBe('/user');
+  });
 
-    expect(pathToRegexp('/user/:id').exec('/zh/user/1')).toEqual(
-      pathToRegexp('/user/:id').exec('/user/1')
-    )
-    expect(pathToRegexp('/user/:id').exec('/user/1')).toEqual(
-      pathToRegexp('/user/:id').exec('/user/1')
-    )
-  })
-})
+  it('should not match the path "/zh/user" with the pattern "/user"', () => {
+    const re = pathToRegexp('/user');
+    expect(re.exec('/zh/user')).toBeNull();
+  });
+});

@@ -5,7 +5,7 @@
   </a>
 </p>
 
-<h1 align="center">AntD Admin</h1>
+<h1 align="center">Outlet Management System</h1>
 
 <div align="center">
 
@@ -32,7 +32,7 @@
 
 - 国际化，源码中抽离翻译字段，按需加载语言包
 - 动态权限，不同权限对应不同菜单
-- 优雅美观，Ant Design 设计体系
+- 优雅美观，Outlet Management System 设计体系
 - Mock 数据，本地数据调试
 
 
@@ -81,7 +81,7 @@ npm run start
 ## 参与贡献  
 
 我们非常欢迎你的贡献，你可以通过以下方式和我们一起共建 :smiley:
-- 在你的公司或个人项目中使用 AntD Admin。
+- 在你的公司或个人项目中使用 Outlet Management System。
 - 通过 [Issue](http://github.com/zuiidea/antd-admin/issues) 报告 bug 或进行咨询。
 - 提交 [Pull Request](http://github.com/zuiidea/antd-admin/pulls) 改进代码。
 

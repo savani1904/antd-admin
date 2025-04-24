@@ -4,7 +4,7 @@
   </a>
 </p>
 
-<h1 align="center">AntD Admin</h1>
+<h1 align="center">Outlet Management System</h1>
 
 <div align="center">
 

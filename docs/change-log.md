@@ -32,14 +32,14 @@
   
 - Support multiple layouts, which rules can be used according to the rules.
 
-- Support Antd Admin to automatically compile and deploy on Travis.
+- Support Outlet Management System to automatically compile and deploy on Travis.
 
 - Generate a documentation website using `Docsify`.
 
 
 #### Style
 
-- Added Antd Admin standalone Logo.
+- Added Outlet Management System standalone Logo.
 
 - Rewrite the overall layout component, optimize the menu, automatic breadcrumb navigation, menu auto-expansion and other logic.
 

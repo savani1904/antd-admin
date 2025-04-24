@@ -1,6 +1,6 @@
 # Quick Start
 
-> Before delving into Ant Design React, a good knowledge base of [React](http://facebook.github.io/react/) 、 [ES2015+](http://es6.ruanyifeng.com/) 、 [Antd Design](https://ant.design/docs/react/introduce-cn) .  Learn about [UmiJS](https://umijs.org/) , [Dva](http://github.com/dvajs/dva) . And properly installed and configured [Node.js](https://nodejs.org/) v8 or above, [Git](https://git-scm.com/). It would be helpful if you have pre-existing knowledge on those.
+> Before delving into Outlet Management System React, a good knowledge base of [React](http://facebook.github.io/react/) 、 [ES2015+](http://es6.ruanyifeng.com/) 、 [Antd Design](https://ant.design/docs/react/introduce-cn) .  Learn about [UmiJS](https://umijs.org/) , [Dva](http://github.com/dvajs/dva) . And properly installed and configured [Node.js](https://nodejs.org/) v8 or above, [Git](https://git-scm.com/). It would be helpful if you have pre-existing knowledge on those.
 
 ## Installation
 
